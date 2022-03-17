@@ -1,5 +1,6 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +15,12 @@ builder.Services.AddDbContext<StoreContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
+
 var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
-var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 try
 {
     context.Database.Migrate();
@@ -26,7 +28,7 @@ try
 }
 catch (Exception ex)
 {
-    logger.LogError(ex, "Problem migrating data");
+    Log.Fatal(ex, "Problem migrating data");
 }
 
 // Configure the HTTP request pipeline.

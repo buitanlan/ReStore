@@ -18,14 +18,13 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
-            //return Ok()
+            return await _context.Products.AsNoTracking().ToListAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
         }
     }
 }
