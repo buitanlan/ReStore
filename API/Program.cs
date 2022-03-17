@@ -1,7 +1,6 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,7 +22,7 @@ var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 try
 {
     context.Database.Migrate();
-    DbInitializer.Initialize(context);
+    await DbInitializer.Initialize(context);
 }
 catch (Exception ex)
 {
