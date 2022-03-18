@@ -8,10 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddDbContext<StoreContext>(opt =>
-{
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+builder.Services.AddSqlServer<StoreContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
 
