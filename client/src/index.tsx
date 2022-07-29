@@ -1,16 +1,16 @@
-import React, {StrictMode} from 'react';
+import React, { StrictMode } from 'react';
 import './index.css';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
-import {createRoot} from "react-dom/client";
+import { createRoot } from 'react-dom/client';
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = createRoot(rootElement);
 
 root.render(
-    <StrictMode>
-        <App />
-    </StrictMode>,
+  <StrictMode>
+    <App />
+  </StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
