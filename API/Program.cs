@@ -40,4 +40,4 @@ app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://loc
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();
