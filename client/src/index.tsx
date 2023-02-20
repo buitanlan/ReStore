@@ -1,15 +1,16 @@
 import React, { StrictMode } from 'react';
 import './index.css';
-import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './app/routes/Routers';
 
 const rootElement = document.getElementById('root') as HTMLElement;
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router}></RouterProvider>
   </StrictMode>
 );
 
