@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddSqlServer<StoreContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
+builder.Services.AddNpgsql<StoreContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Host.UseSerilog((_, lc) => lc.WriteTo.Console());
 
