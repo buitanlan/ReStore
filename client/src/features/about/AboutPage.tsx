@@ -9,8 +9,8 @@ import {
   ListItemText,
   Typography
 } from '@mui/material';
-import agent from '../../api/agent';
 import { useState } from 'react';
+import agent from '../../app/api/agent';
 
 export default function AboutPage() {
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
