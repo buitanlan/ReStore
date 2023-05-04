@@ -1,4 +1,5 @@
-﻿namespace API.Entities;
+﻿#nullable disable
+namespace API.Entities;
 
 public class Product
 {

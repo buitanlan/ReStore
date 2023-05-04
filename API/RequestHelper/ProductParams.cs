@@ -1,4 +1,5 @@
-﻿namespace API.RequestHelper;
+﻿#nullable disable
+namespace API.RequestHelper;
 
 public class ProductParams : PaginationParams
 {
