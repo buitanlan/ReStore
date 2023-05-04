@@ -1,3 +1,5 @@
+#nullable disable
+
 using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities;

@@ -1,4 +1,6 @@
-﻿namespace API.DTOs;
+﻿#nullable disable
+
+namespace API.DTOs;
 
 public class BasketDto
 {
