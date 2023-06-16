@@ -7,14 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class BasketController : BaseApiController
+public class BasketController(StoreContext context) : BaseApiController
 {
-    private readonly StoreContext _context;
-    public BasketController(StoreContext context)
-    {
-        _context = context;
-    }
-
     [HttpGet(Name = "GetBasket")]
     public async Task<ActionResult<BasketDto>> GetBasket()
     {
@@ -31,13 +25,13 @@ public class BasketController : BaseApiController
     {
         var basket = await RetrieveBasket(GetBuyerId()) ?? CreateBasket();
 
-        var product = await _context.Products.FindAsync(productId);
+        var product = await context.Products.FindAsync(productId);
 
         if (product == null) return BadRequest(new ProblemDetails{Title = "Product not found"});
 
         basket!.AddItem(product, quantity);
 
-        var result = await _context.SaveChangesAsync() > 0;
+        var result = await context.SaveChangesAsync() > 0;
 
         if (!result) return BadRequest(new ProblemDetails { Title = "Problem saving item to basket" });
         return CreatedAtRoute("GetBasket", basket.MapBasketToDto());
@@ -52,7 +46,7 @@ public class BasketController : BaseApiController
 
         basket.RemoveItem(productId, quantity);
 
-        var result = await _context.SaveChangesAsync() > 0;
+        var result = await context.SaveChangesAsync() > 0;
 
         if (result) return Ok();
 
@@ -66,7 +60,7 @@ public class BasketController : BaseApiController
             Response.Cookies.Delete("buyerId");
             return null;
         }
-        return await _context.Baskets
+        return await context.Baskets
             .Include(i => i.Items)
             .ThenInclude(p => p.Product)
             .FirstOrDefaultAsync(basket => basket.BuyerId == Request.Cookies["buyerId"]);
@@ -87,7 +81,7 @@ public class BasketController : BaseApiController
             Response.Cookies.Append("buyerId", buyerId, cookieOptions);
         }
         var basket = new Basket { BuyerId = buyerId };
-        _context.Baskets.Add(basket);
+        context.Baskets.Add(basket);
         return basket;
     }
     

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import agent from '../../app/api/agent';
 import { User } from '../../app/models/user';
 import { setBasket } from '../basket/basketSlice';
-import { router } from '../../app/router/Routers';
+import { router } from '../../app/router/Routes';
 
 interface AccountState {
   user: User | null;

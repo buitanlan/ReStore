@@ -41,25 +41,26 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 builder.Services.AddCors();
-builder.Services.AddIdentityCore<User>(opt => 
-{
-    opt.User.RequireUniqueEmail = true;
-})
-.AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<StoreContext>();
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(opt => 
-{
-    opt.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddIdentityCore<User>(opt =>
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.
-            GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
-    };
-});
+        opt.User.RequireUniqueEmail = true;
+    })
+    .AddRoles<Role>()
+    .AddEntityFrameworkStores<StoreContext>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSettings:TokenKey"]))
+        };
+    });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddNpgsql<StoreContext>(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -89,7 +90,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => 
     {
         c.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
-    });}
+    });
+}
 
 app.UseHttpsRedirection();
 
