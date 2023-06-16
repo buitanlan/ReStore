@@ -3,35 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Middlewares;
 
-public class ExceptionMiddleware
+public class ExceptionMiddleware(
+    RequestDelegate next, 
+    ILogger logger, 
+    IHostEnvironment env)
 {
-    private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
-    private readonly IHostEnvironment _env;
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, 
-        IHostEnvironment env)
-    {
-        _env = env;
-        _logger = logger;
-        _next = next;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            logger.LogError(ex, ex.Message);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = 500;
 
             var response = new ProblemDetails
             {
                 Status = 500,
-                Detail = _env.IsDevelopment() ? ex.StackTrace : null,
+                Detail = env.IsDevelopment() ? ex.StackTrace : null,
                 Title = ex.Message
             };
 
